@@ -66,7 +66,7 @@
             }
             for (let film of res.data) {
                 $('#film').append(`
-                <option values='${film.id}'>${film.naziv}</option>
+                <option value='${film.id}'>${film.naziv}</option>
                 `)
             }
         })
