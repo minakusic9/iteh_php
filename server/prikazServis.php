@@ -31,17 +31,21 @@ class PrikazServis{
 
     public function kreiraj($filmId,$salaId,$cena,$datum){
         
-        $film= $this->broker->ucitaj("select * from film where id=".$filmId);
+        $film= $this->broker->ucitaj("select * from film where id=".$filmId)[0];
         $trajanje=intval($film->trajanje);
-        $prikazi= $this->broker->ucitaj("select * from prikaz where sala=".$salaId);
+        $prikazi= $this->broker->ucitaj("select p.*, f.trajanje from prikaz p inner join film f on(f.id=p.film_id) where sala=".$salaId);
         $vreme=strtotime($datum);
+        $kraj=$vreme+$trajanje*60000;
         foreach ($prikazi as $prikaz) {
             $vremePrikaza=strtotime($prikaz->datum);
-            if($vremePrikaza<$vreme && ($vremePrikaza+$trajanje*60000)>$vreme && $salaId==intval($prikaz->sala)){
+            $krajPrikaza=$vremePrikaza+intval($prikaz->trajanje)*60000;
+            if($salaId==intval($prikaz->sala) &&
+                (($vremePrikaza>=$vreme && $vremePrikaza<=$kraj)||($krajPrikaza>$vreme && $krajPrikaza<=$kraj))){
                 throw new Exception("Sala je zauzeta u ovom terminu");
             }
-            $this->broker->upisi("insert into prikaz(film_id,sala,cena,datum) values(".$filmId.",".$salaId.",".$cena.",'".$datum."')");
+          
         }
+        $this->broker->upisi("insert into prikaz(film_id,sala,cena,datum) values(".$filmId.",".$salaId.",".$cena.",'".$datum."')");
     }
    
     public function obrisi($id){

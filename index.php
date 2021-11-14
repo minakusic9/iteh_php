@@ -16,7 +16,7 @@
             <input type="text" placeholder="Pretrazi..." id='pretraga' class="form-control">
         </div>
         <div class="col-3">
-            <input type="date" placeholder="Datum" id='datum' class="form-control">
+            <input type="datetime-local" id='datum' class="form-control">
         </div>
     </div>
     <table class="mt-3 table table-dark">
@@ -30,6 +30,9 @@
                 <th>Pocetak</th>
             </tr>
         </thead>
+        <tbody id='repertoar'>
+
+        </tbody>
     </table>
 </div>
 <script>
@@ -80,8 +83,18 @@
                 && (element.film.naziv.includes(pretraga) || element.sala.naziv.includes(pretraga))
                 && (datumStr === '' || (datum.getDate() === elementDatum.getDate() && datum.getMonth() === elementDatum.getMonth() && elementDatum.getFullYear() === datum.getFullYear()))
         })
+        $('#repertoar').html('');
         for (let prikaz of filtrirani) {
-
+            $('#repertoar').append(`
+                <tr>
+                    <td>${prikaz.film.naziv}</td>
+                    <td>${prikaz.cena}</td>
+                    <td>${prikaz.film.trajanje}</td>
+                    <td>${prikaz.film.ocena}</td>
+                    <td>${prikaz.sala.naziv}</td>
+                    <td>${prikaz.datum}</td>
+                </tr>
+            `)
         }
     }
 </script>
