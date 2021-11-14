@@ -8,7 +8,7 @@ class SalaServis{
         $this->broker=$b;
     }
     public function vratiSve(){
-        return $broker->ucitaj("select * from sala");
+        return  $this->broker->ucitaj("select * from sala");
     }
 }
 

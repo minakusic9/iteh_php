@@ -27,7 +27,7 @@ class Controller{
  
     public function obradiZahtev(){
         try {
-           return vratiOdgovor(izvrsi());
+           return $this->vratiOdgovor($this->izvrsi());
         } catch (Exception $ex) {
             return $this->vratiGresku($ex->getMessage());
         }
@@ -35,7 +35,7 @@ class Controller{
 
     private function izvrsi(){
         $akcija=$_GET["akcija"];
-        $metoda=$_REQUEST['REQUEST_METHOD'];
+        $metoda=$_SERVER['REQUEST_METHOD'];
 
         if($akcija=='film.read'){
             if($metoda!=="GET"){
@@ -47,21 +47,21 @@ class Controller{
             if($metoda!=="POST"){
                 throw new Exception("Akcija se moze pozvati samo POST metodom");
             }
-            $this->filmServis->kreiraj($POST["naziv"],$POST["trajanje"],$POST["ocena"]);
+            $this->filmServis->kreiraj($_POST["naziv"],$_POST["trajanje"],$_POST["ocena"]);
             return null;
         }
         if($akcija=='film.update'){
             if($metoda!=="POST"){
                 throw new Exception("Akcija se moze pozvati samo POST metodom");
             }
-            $this->filmServis->izmeni($POST["id"],$POST["naziv"],$POST["trajanje"],$POST["ocena"]);
+            $this->filmServis->izmeni($_POST["id"],$_POST["naziv"],$_POST["trajanje"],$_POST["ocena"]);
             return null;
         }
         if($akcija=='film.delete'){
             if($metoda!=="POST"){
                 throw new Exception("Akcija se moze pozvati samo POST metodom");
             }
-            $this->filmServis->obrisi($POST["id"]);
+            $this->filmServis->obrisi($_POST["id"]);
             return null;
         }
         if($akcija=='sala.read'){
@@ -80,14 +80,14 @@ class Controller{
             if($metoda!=="POST"){
                 throw new Exception("Akcija se moze pozvati samo POST metodom");
             }
-            $this->prikazServis->kreiraj($POST["filmId"],$POST["salaId"],$POST["cena"],$POST["datum"]);
+            $this->prikazServis->kreiraj($_POST["filmId"],$_POST["salaId"],$_POST["cena"],$_POST["datum"]);
             return null;
         }
         if($akcija=='prikaz.delete'){
             if($metoda!=="POST"){
                 throw new Exception("Akcija se moze pozvati samo POST metodom");
             }
-            $this->prikazServis->obrisi($POST["id"]);
+            $this->prikazServis->obrisi($_POST["id"]);
             return null;
         }
         throw new Exception("Akcija nije podrzana");
