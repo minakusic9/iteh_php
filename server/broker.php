@@ -7,7 +7,7 @@ class Broker{
         $this->mysqli = new mysqli($host,$username,$pass,$db);
         $this->mysqli->set_charset("utf8");
     }
-    function izvrsiCitanje($upit){
+    function ucitaj($upit){
         $rezultat=$this->mysqli->query($upit);
        
         if(!$rezultat){
@@ -19,7 +19,7 @@ class Broker{
             }
             return $rez;
     }
-    function izvrsiIzmenu($upit){
+    function upisi($upit){
         $rezultat=$this->mysqli->query($upit);
     
         if(!$rezultat){
