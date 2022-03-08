@@ -16,7 +16,7 @@
             <input type="text" placeholder="Pretrazi..." id='pretraga' class="form-control">
         </div>
         <div class="col-3">
-            <input type="datetime-local" id='datum' class="form-control">
+            <input type="date" id='datum' class="form-control">
         </div>
     </div>
     <table class="mt-3 table table-dark">
@@ -72,18 +72,18 @@
         })
     })
     function popuniTabelu() {
-        const film = Number($('#film').val());
+        const filmId = Number($('#film').val());
         const datumStr = $('#datum').val();
         const datum = new Date(datumStr);
         const pretraga = $('#pretraga').val();
         const filtrirani = prikazi.filter(function (element) {
             const elementDatum = new Date(element.datum);
 
-            return (!film || element.film.id == film)
+            return (filmId==0 || element.film.id == filmId)
                 && (element.film.naziv.includes(pretraga) || element.sala.naziv.includes(pretraga))
                 && (datumStr === '' || (datum.getDate() === elementDatum.getDate() && datum.getMonth() === elementDatum.getMonth() && elementDatum.getFullYear() === datum.getFullYear()))
         })
-        $('#repertoar').html('');
+       $('#repertoar').html('');
         for (let prikaz of filtrirani) {
             $('#repertoar').append(`
                 <tr>

@@ -105,6 +105,7 @@
                     <td>${prikaz.film.naziv}</td>
                     <td>${prikaz.cena}</td>
                     <td>${prikaz.film.trajanje}</td>
+                    <td>${prikaz.film.ocena}</td>
                     <td>${prikaz.sala.naziv}</td>
                     <td>${prikaz.datum}</td>
                     <td>
